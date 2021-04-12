@@ -6,9 +6,9 @@ if len(FILES) == 0:
 
 BARCODES = config["barcodes"]
 
-REFERENCE = "/mnt/studentfiles/data/Nanopore_sequencing/SARS-CoV-2/NC_045512.2.fasta"
-REFERENCE_GFF = "/mnt/data/Nanopore_sequencing/SARS-CoV-2/NC_045512.2_edited.gff3"
-HG38 = "/mnt/data/Nanopore_sequencing/SARS-CoV-2/GRCh38_latest_genomic.fna"
+REFERENCE = "/mnt/StudentFiles/2020-21/Project5/data/covid/NC_045512.2.fasta"
+REFERENCE_GFF = "/mnt/StudentFiles/2020-21/Project5/data/covid/NC_045512.2_edited.gff3"
+HG38 = "/mnt/StudentFiles/2020-21/Project5/data/GRCh38_latest_genomic.fna"
 COVERAGE = ["30"]
 
 rule all:
@@ -26,7 +26,7 @@ rule demux_files:
     threads: 1
     shell:
         """
-        /mnt/appl/Porechop_customized/porechop-runner.py -i {input} -b separate/{wildcards.file} \
+        /mnt/StudentFiles/2020-21/Project5/Porechop/porechop-runner.py -i {input} -b separate/{wildcards.file} \
         --format fastq --require_two_barcodes --discard_unassigned -t {threads} -v 0 -l {params.barcodes}
         touch {output.barcode}
         """
@@ -91,7 +91,7 @@ rule create_consensus:
     shell:
         """
         samtools index -@ {threads} {input}
-        /mnt/appl/bam2consensus.py -i {input} -o {output} -d {wildcards.coverage} -g 1
+        /mnt/StudentFiles/2020-21/Project5/covid_snake/helper_scripts/bam2consensus.py -i {input} -o {output} -d {wildcards.coverage} -g 1
         """
 
 rule align_consensus:
@@ -134,6 +134,6 @@ rule gather_consensus_and_extract_genes:
     shell:
         """
         cat {input.consensus} > tmp_consensus.fasta
-        Rscript --vanilla /mnt/appl/extract_genes.R {input.ref_gff} {input.ref} tmp_consensus.fasta genes_{wildcards.coverage}x >/dev/null 2>&1
+        Rscript --vanilla /mnt/StudentFiles/2020-21/Project5/covid_snake/extract_genes.R {input.ref_gff} {input.ref} tmp_consensus.fasta genes_{wildcards.coverage}x >/dev/null 2>&1
         mv tmp_consensus.fasta {output}
         """
