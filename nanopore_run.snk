@@ -6,7 +6,7 @@ if len(FILES) == 0:
 
 BARCODES = config["barcodes"]
 
-REFERENCE = "/mnt/data/Nanopore_sequencing/SARS-CoV-2/NC_045512.2.fasta"
+REFERENCE = "/mnt/studentfiles/data/Nanopore_sequencing/SARS-CoV-2/NC_045512.2.fasta"
 REFERENCE_GFF = "/mnt/data/Nanopore_sequencing/SARS-CoV-2/NC_045512.2_edited.gff3"
 HG38 = "/mnt/data/Nanopore_sequencing/SARS-CoV-2/GRCh38_latest_genomic.fna"
 COVERAGE = ["30"]
