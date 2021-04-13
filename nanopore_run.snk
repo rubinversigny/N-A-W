@@ -1,6 +1,6 @@
 import sys
 
-FILES, = glob_wildcards("fastq_pass/{file}.fastq")
+FILES, = glob_wildcards("{file}.fastq")
 if len(FILES) == 0:
     sys.exit()
 
