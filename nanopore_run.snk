@@ -22,7 +22,7 @@ rule demux_files:
     output:
         barcode = expand("separate/{{file}}/BC{bc}.fastq", bc=BARCODES)
     params:
-        barcodes = expand("BC{bc}_NBD196", bc=BARCODES)
+        barcodes = expand("BC{bc}_rapid", bc=BARCODES)
     threads: 1
     shell:
         """
