@@ -1,6 +1,6 @@
 import sys
 
-FILES, = glob_wildcards("{file}.fastq")
+FILES, = glob_wildcards("mnt/StudentFiles/2020-21/Project5/data/hepatitis/Flongle_Run5_hcvdata.fastq")
 if len(FILES) == 0:
     sys.exit()
 
