@@ -16,7 +16,7 @@ rule all:
         expand("consensus_{coverage}x.fasta", coverage=COVERAGE)
         
 rule demux_files:
-    priority: 7
+    priority: 8
     input:
         "fastq_pass/{file}.fastq"
     output:
@@ -29,6 +29,17 @@ rule demux_files:
         /mnt/StudentFiles/2020-21/Project5/Porechop/porechop-runner.py -i {input} -b separate/{wildcards.file} \
         --format fastq --require_two_barcodes --discard_unassigned -t {threads} -v 0 -l {params.barcodes}
         touch {output.barcode}
+        """
+rule NanoPlot:
+    priority: 7
+    input:
+        "demultiplexed/barcode{bc}.fastq"
+    output:
+        "nanoplot/barcode{bc,\d+}"
+    threads: 1
+    shell:
+        """
+        NanoPlot --fastq {input} -o {output} -t {threads}
         """
 
 rule merge_barcodes:
