@@ -133,6 +133,18 @@ rule align_consensus:
             print(">barcode"+wildcards.bc+"_consensus_"+wildcards.coverage+"x", file=out)
             print(str(aln[0]).strip().split('\n')[2], file=out)
 
+rule Blast:
+    priority: 2
+    input:
+        "consensus/barcode{bc}_consensus_{coverage}x.fasta"
+    output:
+        "blast/blast_on_barcode{bc,\d+}.txt"
+    threads: 1
+    shell:
+        """
+        blastn -query {input} -DB /mnt/StudentFiles/2020-21/Project5/data/influenza/database/influenza -out {output} -outfmt "6 qseqid stitle evalue qcovs" -evalue 0.00001 -max_target_seqs 1
+        """
+
 rule gather_consensus_and_extract_genes:
     priority: 0
     input:
